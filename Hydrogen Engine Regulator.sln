@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hydrogen Engine Regulator", "Hydrogen Engine Regulator.csproj", "{7FC4C73C-809C-4DB2-B042-8B2600C922D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FC4C73C-809C-4DB2-B042-8B2600C922D0}.Debug|x64.ActiveCfg = Debug|x64
+		{7FC4C73C-809C-4DB2-B042-8B2600C922D0}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97B50FA5-B1FB-49D6-8D79-15F9FA12EC52}
+	EndGlobalSection
+EndGlobal
