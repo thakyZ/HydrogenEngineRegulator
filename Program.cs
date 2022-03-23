@@ -77,9 +77,11 @@ namespace IngameScript
         public void OutputInfo()
         {
             List<float> batteryLevels = (from b in StationBatteryBlocks
-                                         let a = b.CurrentStoredPower
+                                         let a = (b.CurrentStoredPower / b.MaxStoredPower)
                                          select a).ToList();
-            float percent = ComputePercent(batteryLevels, (maxBatteryLevel * 3.0f));
+
+            float percent = ComputeLevels(batteryLevels);
+
             List<double> hydrogenTankLevels = (from g in StationHydrogenTanks
                                                let a = g.FilledRatio
                                                select a).ToList();
@@ -104,12 +106,6 @@ namespace IngameScript
 
         public float ComputeLevels(List<float> levels) => levels.Average();
         public double ComputeLevels(List<double> levels) => levels.Average();
-
-        public float ComputePercent(List<float> levels, float max)
-        {
-            float average = levels.Average();
-            return (average / max);
-        }
 
         public float ComputeRange(List<float> levels)
         {
@@ -140,18 +136,17 @@ namespace IngameScript
         public bool CheckBatteryLevels()
         {
             List<float> levels = (from b in StationBatteryBlocks
-                                  let a = b.CurrentStoredPower
+                                  let a = (b.CurrentStoredPower / b.MaxStoredPower)
                                   select a).ToList();
 
-            float average = ComputeLevels(levels);
-            float percent = ComputePercent(levels, maxBatteryLevel * 3.0f);
+            float percent = ComputeLevels(levels);
 
-            if (average <= (minBatteryLevel * 3.0f))
+            if (percent <= minBatteryLevel)
             {
                 State = "Battery.Empty";
                 return true;
             }
-            else if (average >= (maxBatteryLevel * 3.0f))
+            else if (percent >= maxBatteryLevel)
             {
                 State = "Battery.Full";
                 return false;
