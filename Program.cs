@@ -37,6 +37,7 @@ namespace IngameScript
         public float maxBatteryLevel = 0.95f;
 
         // Percent from 0.0 to 1.0 of the minimum average hydrogen tank filled level.
+        // -1 if you don't want to keep track on hydrogen tank levels
         public double minHydrogenTankLevel = 0.25;
 
         // ===========================
@@ -67,11 +68,11 @@ namespace IngameScript
         public void GetComponents()
         {
             IMyBlockGroup BatteryGroup = GridTerminalSystem.GetBlockGroupWithName(myBatteryGroupName);
-            BatteryGroup.GetBlocksOfType(StationBatteryBlocks, x => x.BlockDefinition.SubtypeName.Contains("Battery"));
+            if (BatteryGroup != null) BatteryGroup.GetBlocksOfType(StationBatteryBlocks, x => x.BlockDefinition.SubtypeName.Contains("Battery"));
             IMyBlockGroup HydrogenTankGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenTankGroupName);
-            HydrogenTankGroup.GetBlocksOfType(StationHydrogenTanks, x => x.BlockDefinition.SubtypeName.Contains("Hydro"));
+            if (HydrogenTankGroup != null) HydrogenTankGroup.GetBlocksOfType(StationHydrogenTanks, x => x.BlockDefinition.SubtypeName.Contains("Hydro"));
             IMyBlockGroup HydrogenEngineGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenEngineGroupName);
-            HydrogenEngineGroup.GetBlocksOfType(StationHydrogenEngines, x => x.BlockDefinition.SubtypeName.EndsWith("HydrogenEngine"));
+            if (HydrogenEngineGroup != null) HydrogenEngineGroup.GetBlocksOfType(StationHydrogenEngines, x => x.BlockDefinition.SubtypeName.EndsWith("HydrogenEngine"));
         }
 
         public void OutputInfo()
@@ -104,12 +105,20 @@ namespace IngameScript
             Echo("State: " + State);
         }
 
-        public float ComputeLevels(List<float> levels) => levels.Average();
-        public double ComputeLevels(List<double> levels) => levels.Average();
+        public static float ComputeLevels(List<float> levels)
+        {
+            if (levels.Count == 0) return 0f;
+            return levels.Average();
+        }
+        public static double ComputeLevels(List<double> levels)
+        {
+            if (levels.Count == 0) return 0D;
+            return levels.Average();
+        }
 
         public float ComputeRange(List<float> levels)
         {
-            float average = levels.Average();
+            float average = ComputeLevels(levels);
             float range = maxBatteryLevel - minBatteryLevel;
             float correctedStartValue = average / 3.0f - minBatteryLevel;
             return correctedStartValue * 100 / range;
