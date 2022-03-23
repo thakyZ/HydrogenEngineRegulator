@@ -47,9 +47,6 @@ namespace IngameScript
         List<IMyBatteryBlock> StationBatteryBlocks = new List<IMyBatteryBlock>();
         List<IMyGasTank> StationHydrogenTanks = new List<IMyGasTank>();
         List<IMyPowerProducer> StationHydrogenEngines = new List<IMyPowerProducer>();
-        IMyBlockGroup BatteryGroup;
-        IMyBlockGroup HydrogenTankGroup;
-        IMyBlockGroup HydrogenEngineGroup;
         string State = "Battery.Empty";
 
         public Program()
@@ -69,11 +66,11 @@ namespace IngameScript
 
         public void GetComponents()
         {
-            BatteryGroup = GridTerminalSystem.GetBlockGroupWithName(myBatteryGroupName);
+            IMyBlockGroup BatteryGroup = GridTerminalSystem.GetBlockGroupWithName(myBatteryGroupName);
             BatteryGroup.GetBlocksOfType(StationBatteryBlocks, x => x.BlockDefinition.SubtypeName.Contains("Battery"));
-            HydrogenTankGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenTankGroupName);
+            IMyBlockGroup HydrogenTankGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenTankGroupName);
             HydrogenTankGroup.GetBlocksOfType(StationHydrogenTanks, x => x.BlockDefinition.SubtypeName.Contains("Hydro"));
-            HydrogenEngineGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenEngineGroupName);
+            IMyBlockGroup HydrogenEngineGroup = GridTerminalSystem.GetBlockGroupWithName(myHydrogenEngineGroupName);
             HydrogenEngineGroup.GetBlocksOfType(StationHydrogenEngines, x => x.BlockDefinition.SubtypeName.EndsWith("HydrogenEngine"));
         }
 
